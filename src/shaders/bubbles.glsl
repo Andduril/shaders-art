@@ -109,12 +109,14 @@ void main() {
 
   vec2 rep = vec2(256.0);
 
-  float scale = 2.0;
-  float speed = 0.05;
+  float scale = 1.5;
+  float speed = 0.02;
   float warpStrength1 = 0.65;
   float warpStrength2 = 0.25;
   float levels = 7.0;
   float thickness = 1.2;
+  float lacunarity = 1.6;
+  float gain = 0.45;
 
   vec2 p = uv * scale;
 
@@ -122,9 +124,6 @@ void main() {
   vec2 w1 = warp(p * 0.85, rep, t);
   vec2 w2 = warp(p * 1.35 + w1 * 0.9, rep, t + 10.0);
   p += w1 * warpStrength1 + w2 * warpStrength2;
-
-  float lacunarity = 1.6;
-  float gain = 0.45;
 
   float e = 0.60 * (fwidth(p.x) + fwidth(p.y));
   float n0 = fbm(p, rep, 2, lacunarity, gain);

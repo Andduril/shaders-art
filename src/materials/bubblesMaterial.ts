@@ -3,7 +3,7 @@
 import { shaderMaterial } from "@react-three/drei";
 import { extend } from "@react-three/fiber";
 
-import fragmentShader from "../shaders/perlin.glsl";
+import fragmentShader from "../shaders/bubbles.glsl";
 import { Vector3 } from "three";
 import { Vector4 } from "three";
 import { ShaderToyUniforms } from "@/utils/uniforms";
@@ -37,18 +37,18 @@ export const INITIAL_UNIFORMS: ShaderToyUniforms = {
   iChannel3: null,
 };
 
-export const PerlinShaderMaterial = shaderMaterial(
+export const BubblesShaderMaterial = shaderMaterial(
   INITIAL_UNIFORMS,
   vertexShader,
   fragmentShader
 );
 
-extend({ PerlinShaderMaterial });
+extend({ BubblesShaderMaterial });
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    perlinShaderMaterial: import("@react-three/fiber").ThreeElement<
-      typeof PerlinShaderMaterial
+    bubblesShaderMaterial: import("@react-three/fiber").ThreeElement<
+      typeof BubblesShaderMaterial
     >;
   }
 }

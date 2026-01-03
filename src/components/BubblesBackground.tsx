@@ -1,12 +1,12 @@
 "use client";
 
-import { PerlinShaderMaterial } from "@/materials/perlinMaterial";
-import "../materials/perlinMaterial";
+import { BubblesShaderMaterial } from "@/materials/bubblesMaterial";
+import "../materials/bubblesMaterial";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 
 function FullscreenQuad() {
-  const matRef = useRef<InstanceType<typeof PerlinShaderMaterial>>(null);
+  const matRef = useRef<InstanceType<typeof BubblesShaderMaterial>>(null);
   const { size, gl } = useThree();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function FullscreenQuad() {
     const m = matRef.current;
     if (!m) return;
 
-    const t = state.clock.elapsedTime % 120;
+    const t = state.clock.elapsedTime;
 
     m.iTime = t;
     m.iTimeDelta = delta;
@@ -73,7 +73,11 @@ function FullscreenQuad() {
   return (
     <mesh frustumCulled={false}>
       <planeGeometry args={[2, 2]} />
-      <perlinShaderMaterial ref={matRef} depthTest={false} depthWrite={false} />
+      <bubblesShaderMaterial
+        ref={matRef}
+        depthTest={false}
+        depthWrite={false}
+      />
     </mesh>
   );
 }
