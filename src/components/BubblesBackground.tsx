@@ -1,13 +1,23 @@
 "use client";
 
-import { BubblesShaderMaterial } from "@/materials/bubblesMaterial";
+import { BubblesShaderMaterial } from "@/materials/bubbles.material";
 import "../materials/bubblesMaterial";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import BubblesMaterial from "./three/Bubbles";
 
-function FullscreenQuad() {
+export type FullscreenQuadProps = {
+  onReady?: () => void;
+};
+
+const FullscreenQuad = ({ onReady }: FullscreenQuadProps) => {
   const matRef = useRef<InstanceType<typeof BubblesShaderMaterial>>(null);
   const { size, gl } = useThree();
+
+  useEffect(() => {
+    if (!matRef.current) return;
+    matRef.current.needsUpdate = true;
+  }, []);
 
   useEffect(() => {
     if (!matRef.current) return;
@@ -58,6 +68,10 @@ function FullscreenQuad() {
     };
   }, [gl.domElement, size.height, size.width]);
 
+  const handleCompiled = () => {
+    onReady!();
+  };
+
   useFrame((state, delta) => {
     const m = matRef.current;
     if (!m) return;
@@ -73,21 +87,31 @@ function FullscreenQuad() {
   return (
     <mesh frustumCulled={false}>
       <planeGeometry args={[2, 2]} />
-      <bubblesShaderMaterial
+      <BubblesMaterial
         ref={matRef}
         depthTest={false}
         depthWrite={false}
+        onCompiled={handleCompiled}
       />
     </mesh>
   );
-}
+};
 
-export default function PerlinBackground() {
+const BubblesBackground = () => {
+  const [show, setShow] = useState(false);
+
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none">
-      <Canvas gl={{ antialias: true }}>
-        <FullscreenQuad />
-      </Canvas>
+    <div className="fixed inset-0 -z-10 pointer-events-none isolate">
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 ease-out
+          ${show ? "opacity-100" : "opacity-0"}`}
+      >
+        <Canvas gl={{ antialias: true }}>
+          <FullscreenQuad onReady={() => setShow(true)} />
+        </Canvas>
+      </div>
     </div>
   );
-}
+};
+
+export default BubblesBackground;
