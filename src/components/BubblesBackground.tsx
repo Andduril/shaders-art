@@ -1,7 +1,7 @@
 "use client";
 
 import { BubblesShaderMaterial } from "@/materials/bubbles.material";
-import "../materials/bubblesMaterial";
+import "../materials/bubbles.material";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import BubblesMaterial from "./three/Bubbles";
