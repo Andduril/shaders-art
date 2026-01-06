@@ -1,7 +1,7 @@
 "use client";
 
-import { DotShaderMaterial } from "@/materials/dotMaterial";
-import "../materials/dotMaterial";
+import { DotShaderMaterial } from "@/materials/dot.material";
+import "../materials/dot.material";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 

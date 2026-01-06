@@ -1,23 +1,23 @@
 "use client";
 
-import { vertexShader } from "@/utils/shaders";
 import { shaderMaterial } from "@react-three/drei";
-import fragmentShader from "../shaders/bubbles.glsl";
 import { extend } from "@react-three/fiber";
+import fragmentShader from "../shaders/tunnel.glsl";
 import { INITIAL_UNIFORMS } from "@/utils/uniforms";
+import { vertexShader } from "@/utils/shaders";
 
-export const BubblesShaderMaterial = shaderMaterial(
+export const TunnelShaderMaterial = shaderMaterial(
   INITIAL_UNIFORMS,
   vertexShader,
   fragmentShader
 );
 
-extend({ BubblesShaderMaterial });
+extend({ TunnelShaderMaterial });
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    bubblesShaderMaterial: import("@react-three/fiber").ThreeElement<
-      typeof BubblesShaderMaterial
+    tunnelShaderMaterial: import("@react-three/fiber").ThreeElement<
+      typeof TunnelShaderMaterial
     >;
   }
 }

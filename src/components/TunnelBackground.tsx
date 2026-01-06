@@ -1,7 +1,7 @@
 "use client";
 
-import { TunnelShaderMaterial } from "@/materials/tunnelMaterial";
-import "../materials/tunnelMaterial";
+import { TunnelShaderMaterial } from "@/materials/tunnel.material";
+import "../materials/tunnel.material";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 

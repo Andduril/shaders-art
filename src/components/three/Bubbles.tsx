@@ -3,19 +3,8 @@
 import "@/materials/bubbles.material";
 
 import { BubblesShaderMaterial } from "@/materials/bubbles.material";
-import {
-  ComponentProps,
-  ComponentPropsWithoutRef,
-  RefObject,
-  useEffect,
-  useRef,
-} from "react";
-import { WebGLProgramParametersWithUniforms, WebGLRenderer } from "three";
-
-export type ShaderCompiledEvent = {
-  shader: WebGLProgramParametersWithUniforms;
-  renderer: WebGLRenderer;
-};
+import { ComponentPropsWithoutRef, RefObject } from "react";
+import CustomMaterial, { ShaderCompiledEvent } from "./CustomMaterial";
 
 type BubblesMaterialProps =
   ComponentPropsWithoutRef<"bubblesShaderMaterial"> & {
@@ -24,39 +13,15 @@ type BubblesMaterialProps =
   };
 
 const BubblesMaterial = ({
-  onCompiled,
   ref,
+  onCompiled,
   ...props
 }: BubblesMaterialProps) => {
-  const firedRef = useRef<boolean>(false);
-
-  useEffect(() => {
-    const material = ref.current;
-    if (!material) return;
-
-    const previous = material.onBeforeCompile;
-
-    material.onBeforeCompile = (shader, renderer) => {
-      previous?.(shader, renderer);
-
-      if (firedRef.current) return;
-
-      firedRef.current = true;
-
-      queueMicrotask(() => {
-        onCompiled?.({
-          shader,
-          renderer,
-        });
-      });
-    };
-
-    return () => {
-      material.onBeforeCompile = previous ?? null;
-    };
-  }, [onCompiled, ref]);
-
-  return <bubblesShaderMaterial ref={ref} {...props} />;
+  return (
+    <CustomMaterial materialRef={ref} onCompiled={onCompiled}>
+      <bubblesShaderMaterial ref={ref} {...props} />
+    </CustomMaterial>
+  );
 };
 
 export default BubblesMaterial;
